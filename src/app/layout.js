@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
+import { Providers } from "./providers"; // 1. Import the Theme Provider
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,13 +21,18 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    // 2. Add `suppressHydrationWarning` to the <html> tag
+    // This is important for next-themes to work correctly without errors.
+    <html lang="en" suppressHydrationWarning> 
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        {/* 3. Wrap your layout components with the Providers component */}
+        <Providers>
+          <Navbar />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
