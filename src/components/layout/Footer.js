@@ -8,16 +8,14 @@ export default function Footer() {
         {/* Mobile View Company Name */}
         <div className="md:hidden flex flex-col items-center mb-8">
           <Image 
-            src="/logo.svg" 
-            alt="TheNutriDry" 
+            src="/logo.jpg" 
+            alt="Sepjo" 
             width={150} 
             height={50} 
             className="h-14 w-auto hover:opacity-80 transition-all duration-300"
           />
           <h2 className="text-xl font-bold mt-2">
-            <span className="text-white">The</span>
-            <span className="text-green-500">Nutri</span>
-            <span className="text-amber-400">Dry</span>
+            <span className="text-yellow-400">Sepjo</span>
           </h2>
         </div>
         {/* Main Footer Content */}
@@ -26,20 +24,18 @@ export default function Footer() {
           <div className="space-y-5 hidden md:block">
             <div className="flex flex-col items-start">
               <Image 
-                src="/logo.svg" 
-                alt="TheNutriDry" 
+                src="/logo.jpg" 
+                alt="Sepjo" 
                 width={180} 
                 height={64} 
                 className="h-16 w-auto hover:opacity-80 transition-all duration-300"
               />
               <h2 className="text-xl font-bold mt-2">
-                <span className="text-white">The</span>
-                <span className="text-green-500">Nutri</span>
-                <span className="text-amber-400">Dry</span>
+                <span className="text-yellow-400">Sepjo</span>
               </h2>
             </div>
             <p className="text-sm max-w-xs leading-relaxed">
-              Premium dehydrated fruits and vegetables. 100% natural, preservative-free, and nutrient-rich.
+              Creative advertising agency specializing in social media campaigns, billboard advertising, and digital marketing solutions.
             </p>
             <div className="flex space-x-3 pt-2">
               <SocialIcon href="https://www.facebook.com/share/1UT7Jq47Lq/" icon="facebook" />
@@ -53,30 +49,30 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-5 text-lg">Contact Us</h3>
             <div className="space-y-4 text-sm">
               <div>
-                <p className="font-medium text-amber-400">Phone</p>
+                <p className="font-medium text-yellow-400">Phone</p>
                 <p>+91 9984001117</p>
                 <p>+91 9984001113</p>
               </div>
               <div>
-                <p className="font-medium text-amber-400">Email</p>
-                <p>info.nutridry@gmail.com</p>
+                <p className="font-medium text-yellow-400">Email</p>
+                <p>info.sepjo@gmail.com</p>
               </div>
               <div>
-                <p className="font-medium text-amber-400">Location</p>
-                <p className="leading-relaxed">122/3, Awadh Vihar Colony, Near Amausi Intl. Airport, Kanpur Road, Lucknow, 226023</p>
+                <p className="font-medium text-yellow-400">Location</p>
+                <p className="leading-relaxed">122/3, Avas Vikas Colony, Surajkund, Gorakhpur, 226023</p>
               </div>
             </div>
           </div>
           
-          {/* Shop Links */}
+          {/* Services Links */}
           <div>
-            <h3 className="text-white font-semibold mb-5 text-lg">Shop</h3>
+            <h3 className="text-white font-semibold mb-5 text-lg">Services</h3>
             <ul className="space-y-3 text-sm">
-              <FooterLink href="/products">All Products</FooterLink>
-              <FooterLink href="/products?category=Fruits">Fruits</FooterLink>
-              <FooterLink href="/products?category=Vegetables">Vegetables</FooterLink>
-              <FooterLink href="/products?category=Berries">Berries</FooterLink>
-              <FooterLink href="/products?category=Snacks">Snack Packs</FooterLink>
+              <FooterLink href="/services">All Services</FooterLink>
+              <FooterLink href="/services?category=social-media">Social Media</FooterLink>
+              <FooterLink href="/services?category=billboard">Billboard Ads</FooterLink>
+              <FooterLink href="/services?category=digital">Digital Marketing</FooterLink>
+              <FooterLink href="/services?category=creative">Creative Design</FooterLink>
             </ul>
           </div>
           
@@ -86,20 +82,20 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <FooterLink href="/about">About Us</FooterLink>
               <FooterLink href="/contact">Contact</FooterLink>
-              <FooterLink href="/blog">Blog</FooterLink>
-              <FooterLink href="/sustainability">Sustainability</FooterLink>
-              <FooterLink href="/faq">FAQ</FooterLink>
+              <FooterLink href="/portfolio">Portfolio</FooterLink>
+              <FooterLink href="/case-studies">Case Studies</FooterLink>
+              <FooterLink href="/careers">Careers</FooterLink>
             </ul>
           </div>
           
-          {/* Customer Service Links */}
+          {/* Client Resources Links */}
           <div>
-            <h3 className="text-white font-semibold mb-5 text-lg">Customer Service</h3>
+            <h3 className="text-white font-semibold mb-5 text-lg">Client Resources</h3>
             <ul className="space-y-3 text-sm">
-              <FooterLink href="/shipping">Shipping & Returns</FooterLink>
-              <FooterLink href="/warranty">Product Guarantee</FooterLink>
-              <FooterLink href="/bulk-order">Bulk Orders</FooterLink>
-              <FooterLink href="/refund-policy">Refund Policy</FooterLink>
+              <FooterLink href="/pricing">Pricing</FooterLink>
+              <FooterLink href="/consultation">Free Consultation</FooterLink>
+              <FooterLink href="/campaign-management">Campaign Management</FooterLink>
+              <FooterLink href="/analytics">Analytics & Reports</FooterLink>
               <FooterLink href="/terms">Terms of Service</FooterLink>
             </ul>
           </div>
@@ -107,7 +103,7 @@ export default function Footer() {
         
         {/* Bottom Section with Copyright and Payment Methods */}
         <div className="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-xs text-gray-500">© 2025 TheNutriDry. All rights reserved.</p>
+          <p className="text-xs text-gray-500">© 2025 Sepjo. All rights reserved.</p>
           <div className="flex items-center space-x-5 mt-6 md:mt-0">
             <Image 
               src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/visa.svg" 
@@ -149,9 +145,9 @@ function FooterLink({ href, children }) {
     <li>
       <Link 
         href={href} 
-        className="hover:text-amber-400 transition-colors duration-300 flex items-center group"
+        className="hover:text-yellow-400 transition-colors duration-300 flex items-center group"
       >
-        <span className="inline-block w-0 group-hover:w-2 transition-all duration-300 h-0.5 bg-amber-400 mr-0 group-hover:mr-2"></span>
+        <span className="inline-block w-0 group-hover:w-2 transition-all duration-300 h-0.5 bg-yellow-400 mr-0 group-hover:mr-2"></span>
         {children}
       </Link>
     </li>
@@ -164,7 +160,7 @@ function SocialIcon({ href, icon }) {
       href={href} 
       target="_blank" 
       rel="noopener noreferrer"
-      className="h-9 w-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-amber-600 transition-all duration-300 transform hover:-translate-y-1"
+      className="h-9 w-9 rounded-full bg-gray-800 flex items-center justify-center hover:bg-yellow-500 transition-all duration-300 transform hover:-translate-y-1"
       aria-label={icon}
     >
       <span className="sr-only">{icon}</span>
