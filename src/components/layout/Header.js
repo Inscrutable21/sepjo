@@ -10,8 +10,8 @@ export default function Header() {
 
   return (
     <header className="relative w-full bg-gray-900 font-sans">
-      {/* Aspect Ratio Container */}
-      <div className="relative w-full aspect-video">
+      {/* Responsive Aspect Ratio Container */}
+      <div className="relative w-full aspect-[4/3] sm:aspect-[16/6]">
         {/* Video Background */}
         {mounted && (
           <video
