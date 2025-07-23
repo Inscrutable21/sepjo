@@ -141,7 +141,7 @@ export default function ContactPage() {
         <header className="mb-12 text-center">
           <h1 className={`text-3xl md:text-5xl font-bold tracking-tight mb-4 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Contact Us</h1>
           <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'} max-w-2xl mx-auto`}>
-            Have questions about our products or want to place a bulk order? We&apos;d love to hear from you.
+            Rdadyyapfymplifyry brabdan ? Get in toGeh withinu tcreuhive weam titdisuassvyeua dsour isingdneeds rndimaiketing gealsds and marketing goals.
           </p>
         </header>
         
@@ -290,11 +290,9 @@ export default function ContactPage() {
                           : 'bg-white border-gray-300 text-gray-900'}`}
                     >
                       <option value="">Select a subject</option>
-                      <option value="Product Inquiry">Product Inquiry</option>
-                      <option value="Bulk Order">Bulk Order</option>
-                      <option value="Shipping Question">Shipping Question</option>
-                      <option value="Feedback">Feedback</option>
-                      <option value="Other">Other</option>
+                      <option value="Social Media Advertising">Social Media Advertising</option>
+                      <option value="Billboard Advertising">Billboard Advertising</option>
+                      <option value="Digital Advertising">Digital Advertising</option>
                     </select>
                   </div>
                 </div>
@@ -393,39 +391,40 @@ export default function ContactPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto text-left">
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
-              <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>How long do your products stay fresh?</h3>
+              <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>What advertising services does SEPJO offer?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Our dehydrated products typically have a shelf life of 12 months when stored in a cool, dry place in their original sealed packaging.
+                SEPJO specializes in three core advertising services: Social Media Advertising for targeted online campaigns, Billboard Advertising for high-impact outdoor visibility, and Digital Advertising for comprehensive online marketing solutions.
               </p>
             </div>
             
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
-              <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Do you offer international shipping?</h3>
+              <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>How quickly can SEPJO launch my advertising campaign?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Yes, we ship to select international destinations. Shipping rates and delivery times vary by location. Please contact us for specific details.
+                Social media advertising campaigns can go live within 3-5 business days. Billboard advertising requires 1-2 weeks for location booking and creative production. Digital advertising campaigns typically launch within 5-7 days after strategy approval.
               </p>
             </div>
             
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
-              <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Are your products organic?</h3>
+              <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>What makes SEPJO different from other advertising agencies?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Many of our products are certified organic. Each product description specifies whether it&apos;s organic or conventionally grown.
+                SEPJO combines creative excellence with data-driven strategies across all three advertising channels. We offer integrated campaigns that seamlessly blend social media, billboard, and digital advertising for maximum brand impact and ROI.
               </p>
             </div>
             
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
-              <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Do you offer wholesale pricing?</h3>
+              <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Can SEPJO handle both local and national advertising campaigns?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Yes, we offer wholesale pricing for bulk orders. Please contact us directly at info.nutridry@gmail.com for wholesale inquiries.
+                Yes! SEPJO manages campaigns of all scales - from local billboard placements and geo-targeted social media ads to national digital advertising campaigns and multi-city billboard networks.
               </p>
             </div>
           </div>
         </div>
         
         <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-500'} text-center mt-8`}>
-          <p>We&apos;ll send your order details via WhatsApp for confirmation and payment processing.</p>
+          <p>We&apos;ll get back to you within 24 hours to discuss your advertising needs and next steps.</p>
         </div>
       </div>
     </div>
   )
 }
+
