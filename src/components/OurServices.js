@@ -1,22 +1,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-// --- Data for your services ---
+
 const services = [
   {
-    tag: 'Social Media',
     title: 'Social Media Advertising',
     imageUrl: '/images/services/social-media.jpg', // Replace with your image
     href: '/services/social-media'
   },
   {
-    tag: 'Out-of-Home',
     title: 'Billboard Advertising',
     imageUrl: '/images/services/billboard.jpg',   // Replace with your image
     href: '/services/billboard'
   },
   {
-    tag: 'Online',
     title: 'Digital Advertising',
     imageUrl: '/images/services/digital-ads.jpg', // Replace with your image
     href: '/services/digital'
