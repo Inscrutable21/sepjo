@@ -37,7 +37,7 @@ export default function OurServices() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {services.map((service) => (
             <Link key={service.title} href={service.href} className="block group">
-              <div className="relative aspect-[5/4] sm:aspect-[4/5] w-full overflow-hidden rounded-xl sm:rounded-2xl shadow-lg dark:shadow-gray-900/50">
+              <div className="relative aspect-[6.5/6] sm:aspect-[4/5] w-full overflow-hidden rounded-xl sm:rounded-2xl shadow-lg dark:shadow-gray-900/50">
                 {/* Background Image */}
                 <Image
                   src={service.imageUrl}
