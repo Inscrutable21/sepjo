@@ -1,9 +1,11 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function BillboardsPage() {
+  const searchParams = useSearchParams()
   const [billboards, setBillboards] = useState([])
   const [categories, setCategories] = useState([])
   const [cities, setCities] = useState([])
@@ -24,8 +26,23 @@ export default function BillboardsPage() {
   const [showFilters, setShowFilters] = useState(false)
 
   useEffect(() => {
+    // Set initial filters from URL parameters
+    const initialFilters = {
+      search: searchParams.get('search') || '',
+      cityId: searchParams.get('cityId') || '',
+      categoryId: searchParams.get('categoryId') || '',
+      subCategoryId: searchParams.get('subCategoryId') || '',
+      mediaType: searchParams.get('mediaType') || '',
+      illumination: searchParams.get('illumination') || '',
+      minPrice: searchParams.get('minPrice') || '',
+      maxPrice: searchParams.get('maxPrice') || '',
+      size: searchParams.get('size') || '',
+      isAvailable: searchParams.get('isAvailable') !== 'false'
+    }
+    
+    setFilters(initialFilters)
     fetchData()
-  }, [])
+  }, [searchParams])
 
   const fetchData = async () => {
     try {

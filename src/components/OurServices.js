@@ -4,82 +4,83 @@ import Link from 'next/link';
 const services = [
   {
     title: 'Social Media Advertising',
-    description: 'Targeted campaigns across Facebook, Instagram, Twitter, LinkedIn, and more social platforms.',
     imageUrl: '/images/services/social-media.jpg',
-    href: '/billboards?category=social-media',
-    features: ['Facebook Ads', 'Instagram Marketing', 'LinkedIn Campaigns', 'Twitter Promotion']
+    href: '/services/social-media'
   },
   {
     title: 'Billboard Advertising',
-    description: 'High-impact outdoor advertising with premium billboard locations across major cities.',
     imageUrl: '/images/services/billboard.jpg',
-    href: '/billboards?category=billboard',
-    features: ['Highway Billboards', 'City Center Displays', 'Transit Advertising', 'Airport Displays']
+    href: '/services/billboard'
   },
   {
     title: 'Digital Advertising',
-    description: 'Comprehensive online marketing solutions including Google Ads, display ads, and programmatic advertising.',
     imageUrl: '/images/services/digital-ads.jpg',
-    href: '/billboards?category=digital-advertising',
-    features: ['Google Ads', 'Display Advertising', 'Video Marketing', 'Mobile Advertising']
+    href: '/services/digital'
   }
 ];
 
 export default function OurServices() {
   return (
-    <section className="py-16 bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-            Our Advertising Services
+    <section className="bg-gray-100 dark:bg-gray-900 py-12 sm:py-20">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-8 lg:mb-14">
+          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Our Services
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Comprehensive advertising solutions to boost your brand visibility and reach your target audience effectively
+          <p className="mt-3 max-w-2xl mx-auto text-base text-gray-600 dark:text-gray-400">
+            Discover our comprehensive advertising solutions designed to elevate your brand and drive measurable results.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <div key={index} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="relative h-48">
+        {/* Services Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+          {services.map((service) => (
+            <Link key={service.title} href={service.href} className="block group">
+              <div className="relative aspect-[6.5/6] sm:aspect-[4/5] w-full overflow-hidden rounded-xl sm:rounded-2xl shadow-lg dark:shadow-gray-900/50">
+                {/* Background Image */}
                 <Image
                   src={service.imageUrl}
                   alt={service.title}
                   fill
-                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                 />
-              </div>
-              
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
-                  {service.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  {service.description}
-                </p>
-                
-                <ul className="space-y-2 mb-6">
-                  {service.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                      <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+
+                {/* Gradient Overlay for Text Readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent dark:from-black/90 dark:via-black/50"></div>
+
+                {/* Content */}
+                <div className="absolute inset-0 p-4 sm:p-5 flex flex-col">
+                  {/* Top Tag (if you add tags back) */}
+                  {service.tag && (
+                    <div className="self-start">
+                      <span className="bg-white/90 dark:bg-gray-200/90 backdrop-blur-sm text-gray-900 dark:text-gray-800 text-xs font-semibold px-2 sm:px-3 py-1 rounded-full">
+                        {service.tag}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Bottom Text */}
+                  <div className="mt-auto">
+                    <h3 className="text-lg sm:text-xl font-bold text-white">
+                      {service.title}
+                    </h3>
+                    <p className="mt-1 text-white font-semibold flex items-center transition-all duration-300 group-hover:text-gray-200 text-sm sm:text-base">
+                      Learn More
+                      <svg
+                        className="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                       </svg>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                
-                <Link
-                  href={service.href}
-                  className="inline-flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors duration-200"
-                >
-                  Explore Options
-                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
