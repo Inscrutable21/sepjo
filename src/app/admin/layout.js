@@ -7,10 +7,17 @@ export default function AdminLayout({ children }) {
   const [admin, setAdmin] = useState(null)
   const [loading, setLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
+
     // Skip auth check for login page
     if (pathname === '/admin/login') {
       setLoading(false)
@@ -35,12 +42,17 @@ export default function AdminLayout({ children }) {
     }
 
     setLoading(false)
-  }, [router, pathname])
+  }, [router, pathname, mounted])
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken')
     localStorage.removeItem('adminData')
     router.push('/admin/login')
+  }
+
+  // Don't render anything until mounted (prevents hydration mismatch)
+  if (!mounted) {
+    return null
   }
 
   // Show loading spinner

@@ -3,8 +3,6 @@ import Link from 'next/link';
 export default function MobileNavbar({ 
   isMobileMenuOpen, 
   setIsMobileMenuOpen, 
-  searchQuery, 
-  setSearchQuery, 
   isDarkMode, 
   toggleDarkMode 
 }) {
@@ -18,24 +16,6 @@ export default function MobileNavbar({
     } overflow-hidden`}>
       <div className="border-t border-gray-200 dark:border-gray-700">
         <div className="px-2 pt-4 pb-6 space-y-1">
-          {/* Mobile Search */}
-          <div className="px-3 py-2 mb-4">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 py-3 pl-10 text-sm bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
-              />
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3">
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
           {/* Mobile Navigation Links */}
           <div className="space-y-1">
             <Link 
@@ -46,11 +26,11 @@ export default function MobileNavbar({
               Home
             </Link>
             <Link 
-              href="/shop" 
+              href="/Blog" 
               className="block px-3 py-3 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 text-base font-semibold transition-colors rounded-md"
               onClick={closeMobileMenu}
             >
-              Shop
+              Blog
             </Link>
             <Link 
               href="/about" 

@@ -17,3 +17,67 @@ model Admin {
 
   @@map("admins")
 }
+model Category {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  subCategories SubCategory[]
+  billboards   Billboard[]
+
+  @@map("categories")
+}
+model SubCategory {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  categoryId String      @db.ObjectId
+  category   Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  billboards Billboard[]
+
+  @@map("subcategories")
+}
+
+model City {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  name       String      @unique
+  state      String
+  country    String      @default("India")
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  billboards Billboard[]
+
+  @@map("cities")
+}
+
+model Billboard {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  cityId           String    @db.ObjectId
+  city             City      @relation(fields: [cityId], references: [id], onDelete: Cascade)
+  categoryId       String    @db.ObjectId
+  category         Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subCategoryId    String?   @db.ObjectId
+  subCategory      SubCategory? @relation(fields: [subCategoryId], references: [id], onDelete: SetNull)
+  mediaType        String    // Digital, Static, LED, etc.
+  size             String    // e.g., "20x10 feet"
+  illumination     String    // Lit, Unlit, LED
+  ftf              String    // Front/Back facing traffic
+  totalArea        Float     // in square feet
+  description      String
+  pricing          Float     // base price
+  offerPricing     Float?    // discounted price
+  discountPercent  Float?    // discount percentage
+  images           String[]  // array of image URLs
+  location         String    // specific location details
+  isActive         Boolean   @default(true)
+  isAvailable      Boolean   @default(true)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@map("billboards")
+}
+
+
+
