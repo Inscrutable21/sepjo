@@ -25,8 +25,13 @@ export default function BillboardsContent() {
   const [sortBy, setSortBy] = useState('newest')
   const [showFilters, setShowFilters] = useState(false)
 
+  const selectedCategory = categories.find(cat => cat.id === filters.categoryId)
+  const selectedSubCategory = selectedCategory?.subCategories?.find(sub => sub.id === filters.subCategoryId)
+
   useEffect(() => {
     // Set initial filters from URL parameters
+    const categoryParam = searchParams.get('categoryId')
+    
     const initialFilters = {
       search: searchParams.get('search') || '',
       cityId: searchParams.get('cityId') || '',
@@ -41,10 +46,10 @@ export default function BillboardsContent() {
     }
     
     setFilters(initialFilters)
-    fetchData()
+    fetchData(categoryParam)
   }, [searchParams])
 
-  const fetchData = async () => {
+  const fetchData = async (categoryParam) => {
     try {
       const [billboardsRes, categoriesRes, citiesRes] = await Promise.all([
         fetch('/api/billboards'),
@@ -61,6 +66,21 @@ export default function BillboardsContent() {
       setBillboards(billboardsData.billboards || [])
       setCategories(categoriesData.categories || [])
       setCities(citiesData.cities || [])
+
+      // If there's a category parameter, find and set the matching category
+      if (categoryParam && categoriesData.categories) {
+        const matchingCategory = categoriesData.categories.find(cat => 
+          cat.name.toLowerCase().replace(/\s+/g, '-') === categoryParam ||
+          cat.name.toLowerCase() === categoryParam.replace(/-/g, ' ')
+        )
+        
+        if (matchingCategory) {
+          setFilters(prev => ({
+            ...prev,
+            categoryId: matchingCategory.id
+          }))
+        }
+      }
     } catch (error) {
       console.error('Error fetching data:', error)
     } finally {
@@ -129,8 +149,6 @@ export default function BillboardsContent() {
       }
     })
 
-  const selectedCategory = categories.find(cat => cat.id === filters.categoryId)
-
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -144,87 +162,144 @@ export default function BillboardsContent() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            Billboard Advertising
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+            Available Billboards
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Discover premium billboard locations across India for maximum brand visibility
-          </p>
+          
+          {/* Category Breadcrumb */}
+          {selectedCategory && (
+            <div className="flex items-center text-sm text-gray-600 dark:text-gray-400 mb-4">
+              <Link href="/billboards" className="hover:text-blue-600 dark:hover:text-blue-400">
+                All Categories
+              </Link>
+              <svg className="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+              <span className="text-gray-900 dark:text-white font-medium">
+                {selectedCategory.name}
+              </span>
+              {filters.subCategoryId && selectedSubCategory && (
+                <>
+                  <svg className="w-4 h-4 mx-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                  <span className="text-blue-600 dark:text-blue-400 font-medium">
+                    {selectedSubCategory.name}
+                  </span>
+                </>
+              )}
+            </div>
+          )}
+
+          {/* Subcategory Selection */}
+          {selectedCategory && selectedCategory.subCategories && selectedCategory.subCategories.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
+                Choose Subcategory
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => handleFilterChange('subCategoryId', '')}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    !filters.subCategoryId
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  All {selectedCategory.name}
+                </button>
+                {selectedCategory.subCategories.map((subCategory) => (
+                  <button
+                    key={subCategory.id}
+                    onClick={() => handleFilterChange('subCategoryId', subCategory.id)}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      filters.subCategoryId === subCategory.id
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+                    }`}
+                  >
+                    {subCategory.name}
+                    <span className="ml-2 text-xs opacity-75">
+                      ({filteredBillboards.filter(b => b.subCategoryId === subCategory.id).length})
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Filters Bar */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 mb-6">
-          <div className="p-4">
-            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-              {/* Search */}
-              <div className="flex-1 max-w-md">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search billboards, locations..."
-                    value={filters.search}
-                    onChange={(e) => handleFilterChange('search', e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                  />
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
-
-              {/* Filter Toggle Button */}
-              <div className="flex items-center space-x-4">
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center space-x-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
-                  </svg>
-                  <span>Filters</span>
-                </button>
-
-                {/* Sort Dropdown */}
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                >
-                  <option value="newest">Newest First</option>
-                  <option value="oldest">Oldest First</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="discount">Highest Discount</option>
-                </select>
+        {/* Search and Filter Bar */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8">
+          <div className="flex flex-col lg:flex-row gap-4">
+            {/* Search Input */}
+            <div className="flex-1">
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Search billboards..."
+                  value={filters.search}
+                  onChange={(e) => handleFilterChange('search', e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                />
+                <svg className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
               </div>
             </div>
 
-            {/* Expanded Filters */}
-            {showFilters && (
-              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {/* City Filter */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      City
-                    </label>
-                    <select
-                      value={filters.cityId}
-                      onChange={(e) => handleFilterChange('cityId', e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
-                    >
-                      <option value="">All Cities</option>
-                      {cities.map((city) => (
-                        <option key={city.id} value={city.id}>
-                          {city.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+            {/* Filter Toggle and Sort */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
+                Filters
+              </button>
 
-                  {/* Category Filter */}
+              {/* Sort Dropdown */}
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+              >
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="discount">Highest Discount</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Expanded Filters */}
+          {showFilters && (
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* City Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    City
+                  </label>
+                  <select
+                    value={filters.cityId}
+                    onChange={(e) => handleFilterChange('cityId', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="">All Cities</option>
+                    {cities.map((city) => (
+                      <option key={city.id} value={city.id}>
+                        {city.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Category Filter - Only show if no category is pre-selected */}
+                {!selectedCategory && (
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Category
@@ -242,54 +317,140 @@ export default function BillboardsContent() {
                       ))}
                     </select>
                   </div>
+                )}
 
-                  {/* Subcategory Filter */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Subcategory
-                    </label>
-                    <select
-                      value={filters.subCategoryId}
-                      onChange={(e) => handleFilterChange('subCategoryId', e.target.value)}
-                      disabled={!selectedCategory}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
-                    >
-                      <option value="">All Subcategories</option>
-                      {selectedCategory?.subCategories.map((subCategory) => (
-                        <option key={subCategory.id} value={subCategory.id}>
-                          {subCategory.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                {/* Media Type Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Media Type
+                  </label>
+                  <select
+                    value={filters.mediaType}
+                    onChange={(e) => handleFilterChange('mediaType', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="">All Types</option>
+                    <option value="Static">Static</option>
+                    <option value="Digital">Digital</option>
+                    <option value="LED">LED</option>
+                    <option value="Neon">Neon</option>
+                  </select>
+                </div>
 
-                  {/* Clear Filters Button */}
-                  <div className="flex items-end">
-                    <button
-                      onClick={clearFilters}
-                      className="w-full px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                    >
-                      Clear Filters
-                    </button>
-                  </div>
+                {/* Illumination Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Illumination
+                  </label>
+                  <select
+                    value={filters.illumination}
+                    onChange={(e) => handleFilterChange('illumination', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="">All</option>
+                    <option value="Illuminated">Illuminated</option>
+                    <option value="Non-Illuminated">Non-Illuminated</option>
+                  </select>
+                </div>
+
+                {/* Price Range */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Min Price
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Min price"
+                    value={filters.minPrice}
+                    onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Max Price
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Max price"
+                    value={filters.maxPrice}
+                    onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+
+                {/* Size Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Size
+                  </label>
+                  <select
+                    value={filters.size}
+                    onChange={(e) => handleFilterChange('size', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="">All Sizes</option>
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                    <option value="Extra Large">Extra Large</option>
+                  </select>
+                </div>
+
+                {/* Availability Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Availability
+                  </label>
+                  <select
+                    value={filters.isAvailable.toString()}
+                    onChange={(e) => handleFilterChange('isAvailable', e.target.value === 'true')}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white"
+                  >
+                    <option value="true">Available Only</option>
+                    <option value="false">All Billboards</option>
+                  </select>
                 </div>
               </div>
-            )}
-          </div>
+
+              {/* Clear Filters Button */}
+              <div className="mt-4 flex justify-end">
+                <button
+                  onClick={clearFilters}
+                  className="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
+                  Clear All Filters
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Results Count */}
-        <div className="mb-6">
+        {/* Results Summary */}
+        <div className="flex justify-between items-center mb-6">
           <p className="text-gray-600 dark:text-gray-400">
             Showing {filteredBillboards.length} of {billboards.length} billboards
+            {selectedCategory && (
+              <span className="ml-1">
+                in <span className="font-medium text-gray-900 dark:text-white">{selectedCategory.name}</span>
+                {filters.subCategoryId && selectedSubCategory && (
+                  <span> → <span className="font-medium text-blue-600 dark:text-blue-400">{selectedSubCategory.name}</span></span>
+                )}
+              </span>
+            )}
           </p>
         </div>
 
-        {/* Billboards Grid */}
-        {filteredBillboards.length === 0 ? (
+        {/* Billboard Grid */}
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          </div>
+        ) : filteredBillboards.length === 0 ? (
           <div className="text-center py-12">
             <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.175-5.5-2.709M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.562M15 6.306a7.962 7.962 0 00-6 0m6 0V5a2 2 0 00-2-2H9a2 2 0 00-2 2v1.306m8 0V7a2 2 0 012 2v6.414l-1.293 1.293a1 1 0 01-.707.293H8a1 1 0 01-.707-.293L6 15.414V9a2 2 0 012-2V6.306z" />
             </svg>
             <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No billboards found</h3>
             <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -387,3 +548,5 @@ function BillboardCard({ billboard }) {
     </div>
   )
 }
+
+

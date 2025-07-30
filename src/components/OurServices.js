@@ -5,17 +5,17 @@ const services = [
   {
     title: 'Social Media Advertising',
     imageUrl: '/images/services/social-media.jpg',
-    href: '/services/social-media'
+    href: '/billboards?categoryId=social-media'
   },
   {
     title: 'Billboard Advertising',
     imageUrl: '/images/services/billboard.jpg',
-    href: '/services/billboard'
+    href: '/billboards?categoryId=billboard'
   },
   {
     title: 'Digital Advertising',
     imageUrl: '/images/services/digital-ads.jpg',
-    href: '/services/digital'
+    href: '/billboards?categoryId=digital-advertising'
   }
 ];
 
@@ -67,7 +67,7 @@ export default function OurServices() {
                       {service.title}
                     </h3>
                     <p className="mt-1 text-white font-semibold flex items-center transition-all duration-300 group-hover:text-gray-200 text-sm sm:text-base">
-                      Learn More
+                      View Options
                       <svg
                         className="ml-1 sm:ml-2 w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300 group-hover:translate-x-1"
                         fill="none"
