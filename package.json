@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@types/node/package.json",
   "name": "sepjo",
   "version": "0.1.0",
   "private": true,
@@ -32,3 +33,4 @@
     "typescript": "5.8.3"
   }
 }
+

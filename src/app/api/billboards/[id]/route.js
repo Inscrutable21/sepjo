@@ -3,9 +3,11 @@ import { prisma } from '../../../../lib/prisma'
 
 export async function GET(request, { params }) {
   try {
+    const { id } = await params
+    
     const billboard = await prisma.billboard.findUnique({
       where: {
-        id: params.id,
+        id: id,
         isActive: true
       },
       include: {

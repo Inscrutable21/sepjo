@@ -539,7 +539,7 @@ function BillboardCard({ billboard }) {
           
           <Link
             href={`/billboards/${billboard.id}`}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
+            className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors"
           >
             View Details
           </Link>
@@ -548,5 +548,8 @@ function BillboardCard({ billboard }) {
     </div>
   )
 }
+
+
+
 
 
