@@ -39,7 +39,7 @@ export default function Navbar() {
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/" className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-base font-semibold transition-colors duration-200 px-3 py-2">Home</Link>
-            <Link href="/Blog" className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-base font-semibold transition-colors duration-200 px-3 py-2">Blog</Link>
+            <Link href="/blog" className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-base font-semibold transition-colors duration-200 px-3 py-2">Blog</Link>
             <Link href="/about" className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-base font-semibold transition-colors duration-200 px-3 py-2">About</Link>
             <Link href="/contact" className="text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 text-base font-semibold transition-colors duration-200 px-3 py-2">Contact</Link>
           </div>

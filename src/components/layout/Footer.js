@@ -50,8 +50,7 @@ export default function Footer() {
             <div className="space-y-4 text-sm">
               <div>
                 <p className="font-medium text-yellow-400">Phone</p>
-                <p>+91 9984001117</p>
-                <p>+91 9984001113</p>
+                <p>+91 9935570511</p>
               </div>
               <div>
                 <p className="font-medium text-yellow-400">Email</p>
@@ -59,7 +58,7 @@ export default function Footer() {
               </div>
               <div>
                 <p className="font-medium text-yellow-400">Location</p>
-                <p className="leading-relaxed">122/3, Avas Vikas Colony, Surajkund, Gorakhpur, 226023</p>
+                <p className="leading-relaxed">Baghagara, Gorakhpur, Uttar Pradesh, India - 273401</p>
               </div>
             </div>
           </div>
@@ -68,11 +67,11 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-5 text-lg">Services</h3>
             <ul className="space-y-3 text-sm">
-              <FooterLink href="/services">All Services</FooterLink>
-              <FooterLink href="/services?category=social-media">Social Media</FooterLink>
-              <FooterLink href="/services?category=billboard">Billboard Ads</FooterLink>
-              <FooterLink href="/services?category=digital">Digital Marketing</FooterLink>
-              <FooterLink href="/services?category=creative">Creative Design</FooterLink>
+              <FooterLink href="/billboards">All Services</FooterLink>
+              <FooterLink href="/billboards?categoryId=social-media">Social Media</FooterLink>
+              <FooterLink href="/billboards?categoryId=billboard">Billboard Ads</FooterLink>
+              <FooterLink href="/billboards?categoryId=digital-advertising">Digital Marketing</FooterLink>
+              <FooterLink href="/billboards?categoryId=creative">Creative Design</FooterLink>
             </ul>
           </div>
           

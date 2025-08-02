@@ -5,57 +5,83 @@ import { useRouter } from 'next/navigation';
 
 export default function SearchBar() {
   const router = useRouter();
-  const [location, setLocation] = useState('');
+  const [cityId, setCityId] = useState('');
+  const [locationId, setLocationId] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [subCategoryId, setSubCategoryId] = useState('');
   const [cities, setCities] = useState([]);
+  const [locations, setLocations] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [citiesLoading, setCitiesLoading] = useState(false);
+  const [locationsLoading, setLocationsLoading] = useState(false);
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  const [citiesLoaded, setCitiesLoaded] = useState(false);
+  const [categoriesLoaded, setCategoriesLoaded] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  // Lazy load cities when dropdown is opened
+  const handleCitiesDropdownOpen = async () => {
+    if (citiesLoaded || citiesLoading) return;
+    
+    setCitiesLoading(true);
     try {
-      const [citiesRes, categoriesRes] = await Promise.all([
-        fetch('/api/cities'),
-        fetch('/api/categories')
-      ]);
-
-      const [citiesData, categoriesData] = await Promise.all([
-        citiesRes.json(),
-        categoriesRes.json()
-      ]);
-
-      setCities(citiesData.cities || []);
-      setCategories(categoriesData.categories || []);
+      const response = await fetch('/api/cities');
+      const data = await response.json();
+      setCities(data.cities || []);
+      setCitiesLoaded(true);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching cities:', error);
     } finally {
-      setLoading(false);
+      setCitiesLoading(false);
+    }
+  };
+
+  // Fetch locations when city is selected
+  const handleCityChange = async (selectedCityId) => {
+    setCityId(selectedCityId);
+    setLocationId(''); // Reset location when city changes
+    setLocations([]); // Clear previous locations
+    
+    if (!selectedCityId) return;
+    
+    setLocationsLoading(true);
+    try {
+      const response = await fetch(`/api/billboards/locations?cityId=${selectedCityId}`);
+      const data = await response.json();
+      setLocations(data.locations || []);
+    } catch (error) {
+      console.error('Error fetching locations:', error);
+    } finally {
+      setLocationsLoading(false);
+    }
+  };
+
+  // Lazy load categories when dropdown is opened
+  const handleCategoriesDropdownOpen = async () => {
+    if (categoriesLoaded || categoriesLoading) return;
+    
+    setCategoriesLoading(true);
+    try {
+      const response = await fetch('/api/categories');
+      const data = await response.json();
+      setCategories(data.categories || []);
+      setCategoriesLoaded(true);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    } finally {
+      setCategoriesLoading(false);
     }
   };
 
   const selectedCategory = categories.find(cat => cat.id === categoryId);
 
   const handleSearch = () => {
-    // Build search parameters
     const searchParams = new URLSearchParams();
     
-    if (location) {
-      searchParams.set('cityId', location);
-    }
-    
-    if (categoryId) {
-      searchParams.set('categoryId', categoryId);
-    }
-    
-    if (subCategoryId) {
-      searchParams.set('subCategoryId', subCategoryId);
-    }
+    if (cityId) searchParams.set('cityId', cityId);
+    if (locationId) searchParams.set('locationId', locationId);
+    if (categoryId) searchParams.set('categoryId', categoryId);
+    if (subCategoryId) searchParams.set('subCategoryId', subCategoryId);
 
-    // Redirect to billboards page with search parameters
     const queryString = searchParams.toString();
     const url = queryString ? `/billboards?${queryString}` : '/billboards';
     
@@ -64,20 +90,8 @@ export default function SearchBar() {
 
   const handleCategoryChange = (value) => {
     setCategoryId(value);
-    setSubCategoryId(''); // Reset subcategory when category changes
+    setSubCategoryId('');
   };
-
-  if (loading) {
-    return (
-      <section className="bg-white dark:bg-gray-900 py-8 sm:py-12 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-center items-center h-32">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-          </div>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="bg-white dark:bg-gray-900 py-8 sm:py-12 border-b border-gray-200 dark:border-gray-700">
@@ -92,19 +106,22 @@ export default function SearchBar() {
         </div>
 
         <div className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-lg">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {/* Location Select */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            {/* City Select */}
             <div className="relative">
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Location
+                City
               </label>
               <div className="relative">
                 <select
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
+                  value={cityId}
+                  onChange={(e) => handleCityChange(e.target.value)}
+                  onFocus={handleCitiesDropdownOpen}
                   className="w-full px-4 py-3 pl-10 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors appearance-none cursor-pointer"
                 >
-                  <option value="">Select City</option>
+                  <option value="">
+                    {citiesLoading ? 'Loading cities...' : 'Select City'}
+                  </option>
                   {cities.map((city) => (
                     <option key={city.id} value={city.id}>
                       {city.name}, {city.state}
@@ -117,9 +134,35 @@ export default function SearchBar() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+              </div>
+            </div>
+
+            {/* Location Select */}
+            <div className="relative">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Location
+              </label>
+              <div className="relative">
+                <select
+                  value={locationId}
+                  onChange={(e) => setLocationId(e.target.value)}
+                  disabled={!cityId}
+                  className="w-full px-4 py-3 pl-10 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors appearance-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <option value="">
+                    {!cityId ? 'Select city first' : 
+                     locationsLoading ? 'Loading locations...' : 
+                     'Select Location'}
+                  </option>
+                  {locations.map((location) => (
+                    <option key={location.id} value={location.id}>
+                      {location.name}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3">
                   <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                   </svg>
                 </div>
               </div>
@@ -134,9 +177,12 @@ export default function SearchBar() {
                 <select
                   value={categoryId}
                   onChange={(e) => handleCategoryChange(e.target.value)}
+                  onFocus={handleCategoriesDropdownOpen}
                   className="w-full px-4 py-3 pl-10 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors appearance-none cursor-pointer"
                 >
-                  <option value="">Select Category</option>
+                  <option value="">
+                    {categoriesLoading ? 'Loading categories...' : 'Select Category'}
+                  </option>
                   {categories.map((category) => (
                     <option key={category.id} value={category.id}>
                       {category.name}
@@ -213,3 +259,7 @@ export default function SearchBar() {
     </section>
   );
 }
+
+
+
+

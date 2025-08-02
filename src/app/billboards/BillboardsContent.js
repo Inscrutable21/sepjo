@@ -9,6 +9,7 @@ export default function BillboardsContent() {
   const [billboards, setBillboards] = useState([])
   const [categories, setCategories] = useState([])
   const [cities, setCities] = useState([])
+  const [locations, setLocations] = useState([])
   const [loading, setLoading] = useState(true)
   const [filters, setFilters] = useState({
     search: '',
@@ -31,11 +32,14 @@ export default function BillboardsContent() {
   useEffect(() => {
     // Set initial filters from URL parameters
     const categoryParam = searchParams.get('categoryId')
+    const cityParam = searchParams.get('cityId')
+    const locationParam = searchParams.get('locationId')
     
     const initialFilters = {
       search: searchParams.get('search') || '',
-      cityId: searchParams.get('cityId') || '',
-      categoryId: searchParams.get('categoryId') || '',
+      cityId: cityParam || '',
+      locationId: locationParam || '',
+      categoryId: categoryParam || '',
       subCategoryId: searchParams.get('subCategoryId') || '',
       mediaType: searchParams.get('mediaType') || '',
       illumination: searchParams.get('illumination') || '',
@@ -46,10 +50,10 @@ export default function BillboardsContent() {
     }
     
     setFilters(initialFilters)
-    fetchData(categoryParam)
+    fetchData(categoryParam, cityParam)
   }, [searchParams])
 
-  const fetchData = async (categoryParam) => {
+  const fetchData = async (categoryParam, cityParam) => {
     try {
       const [billboardsRes, categoriesRes, citiesRes] = await Promise.all([
         fetch('/api/billboards'),
@@ -92,8 +96,27 @@ export default function BillboardsContent() {
     setFilters(prev => ({
       ...prev,
       [key]: value,
-      ...(key === 'categoryId' && { subCategoryId: '' })
+      ...(key === 'categoryId' && { subCategoryId: '' }),
+      ...(key === 'cityId' && { locationId: '' }) // Reset location when city changes
     }))
+
+    // Fetch locations when city changes
+    if (key === 'cityId' && value) {
+      fetchLocations(value)
+    } else if (key === 'cityId' && !value) {
+      setLocations([]) // Clear locations when no city selected
+    }
+  }
+
+  const fetchLocations = async (cityId) => {
+    try {
+      const response = await fetch(`/api/billboards/locations?cityId=${cityId}`)
+      const data = await response.json()
+      setLocations(data.locations || [])
+    } catch (error) {
+      console.error('Error fetching locations:', error)
+      setLocations([])
+    }
   }
 
   const clearFilters = () => {
@@ -121,6 +144,24 @@ export default function BillboardsContent() {
       const matchesCity = !filters.cityId || billboard.cityId === filters.cityId
       const matchesCategory = !filters.categoryId || billboard.categoryId === filters.categoryId
       const matchesSubCategory = !filters.subCategoryId || billboard.subCategoryId === filters.subCategoryId
+      
+      // Fix location matching - extract location name from locationId
+      let matchesLocation = true
+      if (filters.locationId) {
+        const selectedLocation = locations.find(loc => loc.id === filters.locationId)
+        if (selectedLocation) {
+          // Exact match for location
+          matchesLocation = billboard.location === selectedLocation.name
+          console.log('Location filter:', {
+            selectedLocationName: selectedLocation.name,
+            billboardLocation: billboard.location,
+            matches: matchesLocation
+          })
+        } else {
+          matchesLocation = false
+        }
+      }
+      
       const matchesMediaType = !filters.mediaType || billboard.mediaType === filters.mediaType
       const matchesIllumination = !filters.illumination || billboard.illumination === filters.illumination
       const matchesSize = !filters.size || billboard.size.toLowerCase().includes(filters.size.toLowerCase())
@@ -130,9 +171,21 @@ export default function BillboardsContent() {
       const matchesMinPrice = !filters.minPrice || price >= parseFloat(filters.minPrice)
       const matchesMaxPrice = !filters.maxPrice || price <= parseFloat(filters.maxPrice)
 
-      return matchesSearch && matchesCity && matchesCategory && matchesSubCategory && 
-             matchesMediaType && matchesIllumination && matchesSize && matchesAvailable &&
-             matchesMinPrice && matchesMaxPrice
+      const finalMatch = matchesSearch && matchesCity && matchesCategory && matchesSubCategory && 
+                        matchesLocation && matchesMediaType && matchesIllumination && matchesSize && 
+                        matchesAvailable && matchesMinPrice && matchesMaxPrice
+
+      // Debug logging for problematic billboard
+      if (billboard.location === 'weewmn' && filters.locationId) {
+        console.log('Debug weewmn billboard:', {
+          billboard: billboard.location,
+          filters,
+          matchesLocation,
+          finalMatch
+        })
+      }
+
+      return finalMatch
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -293,6 +346,26 @@ export default function BillboardsContent() {
                     {cities.map((city) => (
                       <option key={city.id} value={city.id}>
                         {city.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Location Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Location
+                  </label>
+                  <select
+                    value={filters.locationId}
+                    onChange={(e) => handleFilterChange('locationId', e.target.value)}
+                    disabled={!filters.cityId}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                  >
+                    <option value="">All Locations</option>
+                    {locations.map((location) => (
+                      <option key={location.id} value={location.id}>
+                        {location.name}
                       </option>
                     ))}
                   </select>
@@ -548,8 +621,5 @@ function BillboardCard({ billboard }) {
     </div>
   )
 }
-
-
-
 
 
