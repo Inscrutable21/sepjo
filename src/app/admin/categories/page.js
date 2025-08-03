@@ -8,7 +8,7 @@ export default function CategoriesPage() {
   const [showSubCategoryForm, setShowSubCategoryForm] = useState(false)
   const [editingCategory, setEditingCategory] = useState(null)
   const [editingSubCategory, setEditingSubCategory] = useState(null)
-  const [formData, setFormData] = useState({ name: '' })
+  const [formData, setFormData] = useState({ name: '', comingSoon: false })
   const [subCategoryData, setSubCategoryData] = useState({ name: '', categoryId: '' })
   const [seeding, setSeeding] = useState(false)
 
@@ -67,7 +67,7 @@ export default function CategoriesPage() {
       })
       
       if (response.ok) {
-        setFormData({ name: '' })
+        setFormData({ name: '', comingSoon: false })
         setShowForm(false)
         setEditingCategory(null)
         fetchCategories()
@@ -104,7 +104,7 @@ export default function CategoriesPage() {
 
   const handleEditCategory = (category) => {
     setEditingCategory(category)
-    setFormData({ name: category.name })
+    setFormData({ name: category.name, comingSoon: category.comingSoon || false })
     setShowForm(true)
   }
 
@@ -186,7 +186,7 @@ export default function CategoriesPage() {
           <button
             onClick={() => {
               setEditingCategory(null)
-              setFormData({ name: '' })
+              setFormData({ name: '', comingSoon: false })
               setShowForm(true)
             }}
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md"
@@ -218,7 +218,7 @@ export default function CategoriesPage() {
                 No categories found
               </h3>
              <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
-  Click on &quot;Add Default Categories&quot; to add the three main service categories: Social Media, Billboard, and Digital Advertising with their subcategories.
+  Click on &quot;Add Default Categories&quot; to add the three main service categories: Social Media, Billboard, and Digital LED display ads with their subcategories.
 </p>
             </div>
           </div>
@@ -260,10 +260,10 @@ export default function CategoriesPage() {
                       {category.name === 'Billboard' && (
                         <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                       )}
-                      {category.name === 'Digital Advertising' && (
+                      {category.name === 'Digital LED display ads' && (
                         <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
                       )}
-                      {!['Social Media', 'Billboard', 'Digital Advertising'].includes(category.name) && (
+                      {!['Social Media', 'Billboard', 'Digital LED display ads'].includes(category.name) && (
                         <div className="w-2 h-2 bg-gray-500 rounded-full mr-2"></div>
                       )}
                       {category.name}
@@ -345,10 +345,10 @@ export default function CategoriesPage() {
                   {category.name === 'Billboard' && (
                     <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
                   )}
-                  {category.name === 'Digital Advertising' && (
+                  {category.name === 'Digital LED display ads' && (
                     <div className="w-2 h-2 bg-purple-500 rounded-full mr-2"></div>
                   )}
-                  {!['Social Media', 'Billboard', 'Digital Advertising'].includes(category.name) && (
+                  {!['Social Media', 'Billboard', 'Digital LED display ads'].includes(category.name) && (
                     <div className="w-2 h-2 bg-gray-500 rounded-full mr-2"></div>
                   )}
                   <h3 className="text-sm font-medium text-gray-900 dark:text-white">{category.name}</h3>
@@ -438,11 +438,22 @@ export default function CategoriesPage() {
                 <input
                   type="text"
                   value={formData.name}
-                  onChange={(e) => setFormData({ name: e.target.value })}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                   placeholder="e.g., Radio Advertising"
                   required
                 />
+              </div>
+              <div className="mb-4">
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked={formData.comingSoon}
+                    onChange={(e) => setFormData({ ...formData, comingSoon: e.target.checked })}
+                    className="mr-2"
+                  />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">Mark as Coming Soon</span>
+                </label>
               </div>
               <div className="flex justify-end space-x-3">
                 <button
@@ -450,7 +461,7 @@ export default function CategoriesPage() {
                   onClick={() => {
                     setShowForm(false)
                     setEditingCategory(null)
-                    setFormData({ name: '' })
+                    setFormData({ name: '', comingSoon: false })
                   }}
                   className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
                 >
@@ -531,6 +542,9 @@ export default function CategoriesPage() {
     </div>
   )
 }
+
+
+
 
 
 

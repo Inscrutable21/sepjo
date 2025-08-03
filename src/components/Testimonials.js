@@ -29,7 +29,7 @@ const testimonials = [
     name: "Amit Patel",
     company: "TechSolutions Pvt Ltd",
     location: "Bangalore",
-    service: "Digital Advertising",
+    service: "Digital LED display ads",
     rating: 5,
     text: "Excellent digital marketing strategy! SEPJO helped us reach our target audience through Google Ads and Facebook campaigns. Our lead generation improved by 250% in just 2 months.",
     avatar: "/bg1.jpg"
@@ -59,9 +59,9 @@ const testimonials = [
     name: "Kavya Reddy",
     company: "Reddy's Restaurant Chain",
     location: "Hyderabad",
-    service: "Digital Advertising",
+    service: "Digital LED display ads",
     rating: 5,
-    text: "SEPJO's digital advertising expertise helped us expand to 3 new cities. Their targeted campaigns and analytics-driven approach delivered exceptional ROI. Truly professional service!",
+    text: "SEPJO's Digital LED display ads expertise helped us expand to 3 new cities. Their targeted campaigns and analytics-driven approach delivered exceptional ROI. Truly professional service!",
     avatar: "/bg1.jpg"
   }
 ];
@@ -208,25 +208,27 @@ export default function Testimonials() {
         {/* Success Stats */}
         <div className="mt-8 sm:mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto">
           <div className="text-center p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-            <div className="text-2xl sm:text-3xl font-bold text-yellow-500 mb-2">500+</div>
-            <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Happy Clients</h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Across India</p>
+            <div className="text-2xl sm:text-3xl font-bold text-yellow-500 mb-2">Creative</div>
+            <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Solutions</h3>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Innovative Campaigns</p>
           </div>
           <div className="text-center p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-            <div className="text-2xl sm:text-3xl font-bold text-yellow-500 mb-2">1000+</div>
-            <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Campaigns Launched</h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Successfully Executed</p>
+            <div className="text-2xl sm:text-3xl font-bold text-yellow-500 mb-2">Expert</div>
+            <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Team</h3>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Professional Service</p>
           </div>
           <div className="text-center p-4 sm:p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-            <div className="text-2xl sm:text-3xl font-bold text-yellow-500 mb-2">98%</div>
-            <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Client Satisfaction</h3>
-            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Rating Average</p>
+            <div className="text-2xl sm:text-3xl font-bold text-yellow-500 mb-2">Quality</div>
+            <h3 className="font-semibold text-gray-900 dark:text-white text-sm sm:text-base">Results</h3>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">Guaranteed Success</p>
           </div>
         </div>
       </div>
     </section>
   );
 }
+
+
 
 
 

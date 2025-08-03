@@ -13,7 +13,7 @@ const services = [
     href: '/billboards?categoryId=billboard'
   },
   {
-    title: 'Digital Advertising',
+    title: 'Digital LED display ads',
     imageUrl: '/images/services/digital-ads.jpg',
     href: '/billboards?categoryId=digital-advertising'
   }

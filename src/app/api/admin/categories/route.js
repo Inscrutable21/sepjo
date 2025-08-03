@@ -24,10 +24,13 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    const { name } = await request.json()
+    const { name, comingSoon } = await request.json()
 
     const category = await prisma.category.create({
-      data: { name }
+      data: { 
+        name,
+        comingSoon: comingSoon || false
+      }
     })
 
     return NextResponse.json({ category })

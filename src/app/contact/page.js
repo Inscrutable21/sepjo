@@ -161,7 +161,7 @@ export default function ContactPage() {
                     <h3 className={`text-lg font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Phone</h3>
                     <div className="mt-1 space-y-1">
                       <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                        <a href="tel:+919984001117" className={`hover:text-yellow-600 ${isDarkMode ? 'hover:text-yellow-400' : ''}`}>+91 9984001117</a>
+                        <a href="tel:+919935570511" className={`hover:text-yellow-600 ${isDarkMode ? 'hover:text-yellow-400' : ''}`}>+91 9935570511</a>
                       </p>
                     </div>
                   </div>
@@ -191,9 +191,9 @@ export default function ContactPage() {
                   <div className="ml-4">
                     <h3 className={`text-lg font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Location</h3>
                     <p className={`mt-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                    122/3, Avas Vikas Colony,<br />
-                    Surajkund,<br />
-                    Gorakhpur
+                    Baghagara,<br />
+                    Gorakhpur, Uttar Pradesh,<br />
+                    India - 273401
                     </p>
                   </div>
                 </div>
@@ -292,7 +292,7 @@ export default function ContactPage() {
                       <option value="">Select a subject</option>
                       <option value="Social Media Advertising">Social Media Advertising</option>
                       <option value="Billboard Advertising">Billboard Advertising</option>
-                      <option value="Digital Advertising">Digital Advertising</option>
+                      <option value="Digital LED display ads">Digital LED display ads</option>
                     </select>
                   </div>
                 </div>
@@ -393,28 +393,28 @@ export default function ContactPage() {
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
               <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>What advertising services does SEPJO offer?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                SEPJO specializes in three core advertising services: Social Media Advertising for targeted online campaigns, Billboard Advertising for high-impact outdoor visibility, and Digital Advertising for comprehensive online marketing solutions.
+                SEPJO specializes in three core advertising services: Social Media Advertising for targeted online campaigns, Billboard Advertising for high-impact outdoor visibility, and Digital LED display ads for comprehensive online marketing solutions.
               </p>
             </div>
             
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
               <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>How quickly can SEPJO launch my advertising campaign?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Social media advertising campaigns can go live within 3-5 business days. Billboard advertising requires 1-2 weeks for location booking and creative production. Digital advertising campaigns typically launch within 5-7 days after strategy approval.
+                Social media advertising campaigns can go live within 3-5 business days. Billboard advertising requires 1-2 weeks for location booking and creative production. Digital LED display ads campaigns typically launch within 5-7 days after strategy approval.
               </p>
             </div>
             
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
               <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>What makes SEPJO different from other advertising agencies?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                SEPJO combines creative excellence with data-driven strategies across all three advertising channels. We offer integrated campaigns that seamlessly blend social media, billboard, and digital advertising for maximum brand impact and ROI.
+                SEPJO combines creative excellence with data-driven strategies across all three advertising channels. We offer integrated campaigns that seamlessly blend social media, billboard, and Digital LED display ads for maximum brand impact and ROI.
               </p>
             </div>
             
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
               <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Can SEPJO handle both local and national advertising campaigns?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Yes! SEPJO manages campaigns of all scales - from local billboard placements and geo-targeted social media ads to national digital advertising campaigns and multi-city billboard networks.
+                Yes! SEPJO manages campaigns of all scales - from local billboard placements and geo-targeted social media ads to national Digital LED display ads campaigns and multi-city billboard networks.
               </p>
             </div>
           </div>

@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -29,7 +29,63 @@ export default function BillboardsContent() {
   const selectedCategory = categories.find(cat => cat.id === filters.categoryId)
   const selectedSubCategory = selectedCategory?.subCategories?.find(sub => sub.id === filters.subCategoryId)
 
+  const fetchLocations = useCallback(async (cityId) => {
+    try {
+      const response = await fetch(`/api/billboards/locations?cityId=${cityId}`)
+      const data = await response.json()
+      setLocations(data.locations || [])
+    } catch (error) {
+      console.error('Error fetching locations:', error)
+      setLocations([])
+    }
+  }, [])
+
   useEffect(() => {
+    const fetchData = async (categoryParam, cityParam, locationParam) => {
+      try {
+        const [billboardsRes, categoriesRes, citiesRes] = await Promise.all([
+          fetch('/api/billboards'),
+          fetch('/api/categories'),
+          fetch('/api/cities')
+        ])
+
+        const [billboardsData, categoriesData, citiesData] = await Promise.all([
+          billboardsRes.json(),
+          categoriesRes.json(),
+          citiesRes.json()
+        ])
+
+        setBillboards(billboardsData.billboards || [])
+        setCategories(categoriesData.categories || [])
+        setCities(citiesData.cities || [])
+
+        // If there's a city parameter, fetch locations
+        if (cityParam) {
+          await fetchLocations(cityParam)
+        }
+
+        // If there's a category parameter, find and set the matching category
+        if (categoryParam && categoriesData.categories) {
+          const matchingCategory = categoriesData.categories.find(cat => 
+            cat.id === categoryParam ||
+            cat.name.toLowerCase().replace(/\s+/g, '-') === categoryParam ||
+            cat.name.toLowerCase() === categoryParam.replace(/-/g, ' ')
+          )
+          
+          if (matchingCategory) {
+            setFilters(prev => ({
+              ...prev,
+              categoryId: matchingCategory.id
+            }))
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
     // Set initial filters from URL parameters
     const categoryParam = searchParams.get('categoryId')
     const cityParam = searchParams.get('cityId')
@@ -50,47 +106,8 @@ export default function BillboardsContent() {
     }
     
     setFilters(initialFilters)
-    fetchData(categoryParam, cityParam)
-  }, [searchParams])
-
-  const fetchData = async (categoryParam, cityParam) => {
-    try {
-      const [billboardsRes, categoriesRes, citiesRes] = await Promise.all([
-        fetch('/api/billboards'),
-        fetch('/api/categories'),
-        fetch('/api/cities')
-      ])
-
-      const [billboardsData, categoriesData, citiesData] = await Promise.all([
-        billboardsRes.json(),
-        categoriesRes.json(),
-        citiesRes.json()
-      ])
-
-      setBillboards(billboardsData.billboards || [])
-      setCategories(categoriesData.categories || [])
-      setCities(citiesData.cities || [])
-
-      // If there's a category parameter, find and set the matching category
-      if (categoryParam && categoriesData.categories) {
-        const matchingCategory = categoriesData.categories.find(cat => 
-          cat.name.toLowerCase().replace(/\s+/g, '-') === categoryParam ||
-          cat.name.toLowerCase() === categoryParam.replace(/-/g, ' ')
-        )
-        
-        if (matchingCategory) {
-          setFilters(prev => ({
-            ...prev,
-            categoryId: matchingCategory.id
-          }))
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+    fetchData(categoryParam, cityParam, locationParam)
+  }, [searchParams, fetchLocations])
 
   const handleFilterChange = (key, value) => {
     setFilters(prev => ({
@@ -105,17 +122,6 @@ export default function BillboardsContent() {
       fetchLocations(value)
     } else if (key === 'cityId' && !value) {
       setLocations([]) // Clear locations when no city selected
-    }
-  }
-
-  const fetchLocations = async (cityId) => {
-    try {
-      const response = await fetch(`/api/billboards/locations?cityId=${cityId}`)
-      const data = await response.json()
-      setLocations(data.locations || [])
-    } catch (error) {
-      console.error('Error fetching locations:', error)
-      setLocations([])
     }
   }
 
@@ -139,24 +145,20 @@ export default function BillboardsContent() {
     .filter(billboard => {
       const matchesSearch = !filters.search || 
         billboard.title.toLowerCase().includes(filters.search.toLowerCase()) ||
-        billboard.location.toLowerCase().includes(filters.search.toLowerCase())
+        billboard.location.toLowerCase().includes(filters.search.toLowerCase()) ||
+        billboard.city?.name.toLowerCase().includes(filters.search.toLowerCase())
       
       const matchesCity = !filters.cityId || billboard.cityId === filters.cityId
       const matchesCategory = !filters.categoryId || billboard.categoryId === filters.categoryId
       const matchesSubCategory = !filters.subCategoryId || billboard.subCategoryId === filters.subCategoryId
       
-      // Fix location matching - extract location name from locationId
+      // Fix location matching - compare with actual location names
       let matchesLocation = true
       if (filters.locationId) {
         const selectedLocation = locations.find(loc => loc.id === filters.locationId)
         if (selectedLocation) {
-          // Exact match for location
-          matchesLocation = billboard.location === selectedLocation.name
-          console.log('Location filter:', {
-            selectedLocationName: selectedLocation.name,
-            billboardLocation: billboard.location,
-            matches: matchesLocation
-          })
+          // Case-insensitive exact match for location
+          matchesLocation = billboard.location.toLowerCase().trim() === selectedLocation.name.toLowerCase().trim()
         } else {
           matchesLocation = false
         }
@@ -171,21 +173,9 @@ export default function BillboardsContent() {
       const matchesMinPrice = !filters.minPrice || price >= parseFloat(filters.minPrice)
       const matchesMaxPrice = !filters.maxPrice || price <= parseFloat(filters.maxPrice)
 
-      const finalMatch = matchesSearch && matchesCity && matchesCategory && matchesSubCategory && 
-                        matchesLocation && matchesMediaType && matchesIllumination && matchesSize && 
-                        matchesAvailable && matchesMinPrice && matchesMaxPrice
-
-      // Debug logging for problematic billboard
-      if (billboard.location === 'weewmn' && filters.locationId) {
-        console.log('Debug weewmn billboard:', {
-          billboard: billboard.location,
-          filters,
-          matchesLocation,
-          finalMatch
-        })
-      }
-
-      return finalMatch
+      return matchesSearch && matchesCity && matchesCategory && matchesSubCategory && 
+             matchesLocation && matchesMediaType && matchesIllumination && matchesSize && 
+             matchesAvailable && matchesMinPrice && matchesMaxPrice
     })
     .sort((a, b) => {
       switch (sortBy) {
@@ -522,13 +512,27 @@ export default function BillboardsContent() {
           </div>
         ) : filteredBillboards.length === 0 ? (
           <div className="text-center py-12">
-            <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.562M15 6.306a7.962 7.962 0 00-6 0m6 0V5a2 2 0 00-2-2H9a2 2 0 00-2 2v1.306m8 0V7a2 2 0 012 2v6.414l-1.293 1.293a1 1 0 01-.707.293H8a1 1 0 01-.707-.293L6 15.414V9a2 2 0 012-2V6.306z" />
-            </svg>
-            <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No billboards found</h3>
-            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Try adjusting your search criteria or filters.
-            </p>
+            {selectedCategory?.comingSoon ? (
+              <>
+                <svg className="mx-auto h-12 w-12 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">Coming Soon!</h3>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  We are working hard to bring you amazing {selectedCategory.name.toLowerCase()} options. Stay tuned for exciting updates!
+                </p>
+              </>
+            ) : (
+              <>
+                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6-4h6m2 5.291A7.962 7.962 0 0112 15c-2.34 0-4.29-1.009-5.824-2.562M15 6.306a7.962 7.962 0 00-6 0m6 0V5a2 2 0 00-2-2H9a2 2 0 00-2 2v1.306m8 0V7a2 2 0 012 2v6.414l-1.293 1.293a1 1 0 01-.707.293H8a1 1 0 01-.707-.293L6 15.414V9a2 2 0 012-2V6.306z" />
+                </svg>
+                <h3 className="mt-2 text-sm font-medium text-gray-900 dark:text-white">No billboards found</h3>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  Try adjusting your search criteria or filters.
+                </p>
+              </>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -543,6 +547,22 @@ export default function BillboardsContent() {
 }
 
 function BillboardCard({ billboard }) {
+  // Define category images mapping
+  const categoryImages = {
+    'social-media': '/images/services/social-media.jpg',
+    'billboard': '/images/services/billboard.jpg',
+    'digital-advertising': '/images/services/digital-ads.jpg'
+  }
+
+  // Get category image based on category name or ID
+  const getCategoryImage = () => {
+    const categoryName = billboard.category?.name?.toLowerCase().replace(/\s+/g, '-')
+    if (categoryName?.includes('social')) return categoryImages['social-media']
+    if (categoryName?.includes('billboard')) return categoryImages['billboard']
+    if (categoryName?.includes('digital')) return categoryImages['digital-advertising']
+    return null
+  }
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
       {/* Image */}
@@ -554,10 +574,17 @@ function BillboardCard({ billboard }) {
             fill
             className="object-cover"
           />
+        ) : getCategoryImage() ? (
+          <Image
+            src={getCategoryImage()}
+            alt={billboard.category?.name}
+            fill
+            className="object-cover opacity-50"
+          />
         ) : (
           <div className="flex items-center justify-center h-full">
             <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
         )}

@@ -6,17 +6,17 @@ const faqs = [
   {
     id: 1,
     question: "What advertising services does SEPJO offer?",
-    answer: "SEPJO specializes in three core advertising services: Social Media Advertising for targeted online campaigns, Billboard Advertising for high-impact outdoor visibility, and Digital Advertising for comprehensive online marketing solutions."
+    answer: "SEPJO specializes in three core advertising services: Social Media Advertising for targeted online campaigns, Billboard Advertising for high-impact outdoor visibility, and Digital LED display ads for comprehensive online marketing solutions."
   },
   {
     id: 2,
     question: "How quickly can SEPJO launch my advertising campaign?",
-    answer: "Social media advertising campaigns can go live within 3-5 business days. Billboard advertising requires 1-2 weeks for location booking and creative production. Digital advertising campaigns typically launch within 5-7 days after strategy approval."
+    answer: "Social media advertising campaigns can go live within 3-5 business days. Billboard advertising requires 1-2 weeks for location booking and creative production. Digital LED display ads campaigns typically launch within 5-7 days after strategy approval."
   },
   {
     id: 3,
     question: "What makes SEPJO different from other advertising agencies?",
-    answer: "SEPJO combines creative excellence with data-driven strategies across all three advertising channels. We offer integrated campaigns that seamlessly blend social media, billboard, and digital advertising for maximum brand impact and ROI."
+    answer: "SEPJO combines creative excellence with data-driven strategies across all three advertising channels. We offer integrated campaigns that seamlessly blend social media, billboard, and Digital LED display ads for maximum brand impact and ROI."
   },
   {
     id: 4,
@@ -127,7 +127,7 @@ export default function FAQ() {
                 Contact Us
               </a>
               <a
-                href="tel:+919651576525"
+                href="tel:+919935570511"
                 className="inline-flex items-center justify-center px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 font-medium rounded-full transition-colors duration-200"
               >
                 Call Now

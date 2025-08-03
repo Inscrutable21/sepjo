@@ -20,6 +20,7 @@ model Admin {
 model Category {
   id           String        @id @default(auto()) @map("_id") @db.ObjectId
   name         String
+  comingSoon   Boolean       @default(false)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   subCategories SubCategory[]
@@ -78,6 +79,7 @@ model Billboard {
 
   @@map("billboards")
 }
+
 
 
 

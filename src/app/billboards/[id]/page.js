@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -12,13 +12,24 @@ export default function BillboardDetailPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [showContactForm, setShowContactForm] = useState(false)
 
-  useEffect(() => {
-    if (params.id) {
-      fetchBillboard()
-    }
-  }, [params.id])
+  // Define category images mapping
+  const categoryImages = {
+    'social-media': '/images/services/social-media.jpg',
+    'billboard': '/images/services/billboard.jpg',
+    'digital-advertising': '/images/services/digital-ads.jpg'
+  }
 
-  const fetchBillboard = async () => {
+  // Get category image based on category name
+  const getCategoryImage = () => {
+    if (!billboard?.category?.name) return null
+    const categoryName = billboard.category.name.toLowerCase().replace(/\s+/g, '-')
+    if (categoryName.includes('social')) return categoryImages['social-media']
+    if (categoryName.includes('billboard')) return categoryImages['billboard']
+    if (categoryName.includes('digital')) return categoryImages['digital-advertising']
+    return null
+  }
+
+  const fetchBillboard = useCallback(async () => {
     try {
       const response = await fetch(`/api/billboards/${params.id}`)
       if (response.ok) {
@@ -34,7 +45,13 @@ export default function BillboardDetailPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [params.id, router])
+
+  useEffect(() => {
+    if (params.id) {
+      fetchBillboard()
+    }
+  }, [params.id, fetchBillboard])
 
   const nextImage = () => {
     if (billboard?.images?.length > 1) {
@@ -165,6 +182,13 @@ Please provide more details about availability and booking process. Thank you!`;
                     </>
                   )}
                 </>
+              ) : getCategoryImage() ? (
+                <Image
+                  src={getCategoryImage()}
+                  alt={billboard.category?.name}
+                  fill
+                  className="object-cover opacity-50"
+                />
               ) : (
                 <div className="flex items-center justify-center h-full">
                   <svg className="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -493,3 +517,6 @@ function ContactFormModal({ billboard, onClose }) {
     </div>
   )
 }
+
+
+

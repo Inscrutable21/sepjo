@@ -60,10 +60,10 @@ const blogPosts = [
       <p>While high-traffic areas offer maximum visibility, targeted locations often provide better conversion rates. The key is finding the balance between reach and relevance for your specific campaign goals.</p>
       
       <h2>Digital Location Targeting</h2>
-      <p>Modern digital advertising allows for precise location targeting, enabling you to reach customers within specific radius of your business or target competitors&rsquo; locations.</p>
+      <p>Modern Digital LED display ads allows for precise location targeting, enabling you to reach customers within specific radius of your business or target competitors&rsquo; locations.</p>
     `,
     image: "/images/services/digital-ads.jpg",
-    category: "Digital Advertising",
+    category: "Digital LED display ads",
     date: "December 10, 2024",
     readTime: "6 min read",
     author: "Creative Director"

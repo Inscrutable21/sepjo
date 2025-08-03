@@ -25,7 +25,7 @@ export default function AboutPage() {
           <div className="absolute bottom-0 left-0 p-8 md:p-12 text-white max-w-3xl">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">Innovating Since 2024</h2>
             <p className="text-gray-200">
-              Transforming brands through compelling social media campaigns, strategic billboard placements, and cutting-edge digital advertising solutions.
+              Transforming brands through compelling social media campaigns, strategic billboard placements, and cutting-edge Digital LED display ads solutions.
             </p>
           </div>
         </div>
@@ -167,22 +167,22 @@ export default function AboutPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <TeamMember 
-              name="Abdul Samad" 
+              name="Pankaj Kumar" 
               role="Creative Director & CEO"
               image="/bg1.jpg"
             />
             <TeamMember 
-              name="Sarah Johnson" 
+              name="Kanchan Sahni" 
               role="Head of Digital Strategy"
               image="/bg1.jpg"
             />
             <TeamMember 
-              name="Mike Chen" 
+              name="Coming Soon" 
               role="Social Media Director"
               image="/bg1.jpg"
             />
             <TeamMember 
-              name="Lisa Rodriguez" 
+              name="Coming Soon" 
               role="Billboard & OOH Specialist"
               image="/bg1.jpg"
             />

@@ -30,7 +30,7 @@ const blogPosts = [
     title: "Location-Based Advertising: The Power of Strategic Placement",
     excerpt: "Discover how choosing the right location can make or break your advertising campaign's effectiveness.",
     image: "/images/services/digital-ads.jpg",
-    category: "Digital Advertising",
+    category: "Digital LED display ads",
     date: "December 10, 2024",
     readTime: "6 min read",
     author: "Creative Director"
@@ -67,7 +67,7 @@ const blogPosts = [
   }
 ]
 
-const categories = ["All", "Billboard Advertising", "Social Media", "Digital Advertising", "Strategy", "Design", "Analytics"]
+const categories = ["All", "Billboard Advertising", "Social Media", "Digital LED display ads", "Strategy", "Design", "Analytics"]
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")
@@ -85,7 +85,7 @@ export default function BlogPage() {
             Advertising Insights
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Expert insights, industry trends, and success stories from the world of billboard, social media, and digital advertising.
+            Expert insights, industry trends, and success stories from the world of billboard, social media, and Digital LED display ads.
           </p>
         </header>
 
@@ -208,7 +208,7 @@ export default function BlogPage() {
             Ready to Launch Your Campaign?
           </h2>
           <p className="text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            Get expert advice on billboard placement, social media strategy, and digital advertising solutions tailored to your brand.
+            Get expert advice on billboard placement, social media strategy, and Digital LED display ads solutions tailored to your brand.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link

@@ -3,12 +3,15 @@ import { prisma } from '../../../../../lib/prisma'
 
 export async function PUT(request, { params }) {
   try {
-    const { name } = await request.json()
+    const { name, comingSoon } = await request.json()
     const { id } = params
 
     const category = await prisma.category.update({
       where: { id },
-      data: { name },
+      data: { 
+        name,
+        comingSoon: comingSoon || false
+      },
       include: {
         subCategories: true,
         _count: {

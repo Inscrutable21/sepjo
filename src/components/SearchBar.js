@@ -184,8 +184,8 @@ export default function SearchBar() {
                     {categoriesLoading ? 'Loading categories...' : 'Select Category'}
                   </option>
                   {categories.map((category) => (
-                    <option key={category.id} value={category.id}>
-                      {category.name}
+                    <option key={category.id} value={category.id} disabled={category.comingSoon}>
+                      {category.name}{category.comingSoon ? ' (Coming Soon)' : ''}
                     </option>
                   ))}
                 </select>
@@ -259,6 +259,8 @@ export default function SearchBar() {
     </section>
   );
 }
+
+
 
 
 

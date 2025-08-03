@@ -24,7 +24,7 @@ const defaultCategories = [
     ]
   },
   {
-    name: 'Digital Advertising',
+    name: 'Digital LED display ads',
     subCategories: [
       'Google Ads',
       'Display Advertising',

@@ -5,8 +5,8 @@ export async function GET() {
   try {
     const billboards = await prisma.billboard.findMany({
       where: {
-        isActive: true,
-        isAvailable: true
+        isActive: true
+        // Remove isAvailable: true filter to get all billboards
       },
       include: {
         city: true,
