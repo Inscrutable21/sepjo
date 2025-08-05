@@ -547,10 +547,10 @@ export default function BillboardsContent() {
 }
 
 function BillboardCard({ billboard }) {
-  // Define category images mapping
+  // Define category images mapping (same as OurServices)
   const categoryImages = {
     'social-media': '/images/services/social-media.jpg',
-    'billboard': '/images/services/billboard.jpg',
+    'unipole': '/images/services/billboard.jpg',
     'digital-advertising': '/images/services/digital-ads.jpg'
   }
 
@@ -558,7 +558,7 @@ function BillboardCard({ billboard }) {
   const getCategoryImage = () => {
     const categoryName = billboard.category?.name?.toLowerCase().replace(/\s+/g, '-')
     if (categoryName?.includes('social')) return categoryImages['social-media']
-    if (categoryName?.includes('billboard')) return categoryImages['billboard']
+    if (categoryName?.includes('unipole') || categoryName?.includes('billboard')) return categoryImages['unipole']
     if (categoryName?.includes('digital')) return categoryImages['digital-advertising']
     return null
   }
@@ -648,5 +648,6 @@ function BillboardCard({ billboard }) {
     </div>
   )
 }
+
 
 

@@ -291,7 +291,7 @@ export default function ContactPage() {
                     >
                       <option value="">Select a subject</option>
                       <option value="Social Media Advertising">Social Media Advertising</option>
-                      <option value="Billboard Advertising">Billboard Advertising</option>
+                      <option value="billboards Advertising">billboards Advertising</option>
                       <option value="Digital LED display ads">Digital LED display ads</option>
                     </select>
                   </div>
@@ -393,14 +393,14 @@ export default function ContactPage() {
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
               <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>What advertising services does SEPJO offer?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                SEPJO specializes in three core advertising services: Social Media Advertising for targeted online campaigns, Billboard Advertising for high-impact outdoor visibility, and Digital LED display ads for comprehensive online marketing solutions.
+                SEPJO specializes in three core advertising services: Social Media Advertising for targeted online campaigns, billboards Advertising for high-impact outdoor visibility, and Digital LED display ads for comprehensive online marketing solutions.
               </p>
             </div>
             
             <div className={`p-6 rounded-lg shadow-sm border ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-100'}`}>
               <h3 className={`text-lg font-medium mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>How quickly can SEPJO launch my advertising campaign?</h3>
               <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Social media advertising campaigns can go live within 3-5 business days. Billboard advertising requires 1-2 weeks for location booking and creative production. Digital LED display ads campaigns typically launch within 5-7 days after strategy approval.
+                Social media advertising campaigns can go live within 3-5 business days. billboards Advertising requires 1-2 weeks for location booking and creative production. Digital LED display ads campaigns typically launch within 5-7 days after strategy approval.
               </p>
             </div>
             

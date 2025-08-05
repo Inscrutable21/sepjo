@@ -19,7 +19,7 @@ const testimonials = [
     name: "Priya Sharma",
     company: "Sharma Fashion House",
     location: "Delhi",
-    service: "Billboard Advertising",
+    service: "billboards Advertising",
     rating: 5,
     text: "The billboard campaign they designed for us was absolutely stunning! We got prime locations across Delhi and the creative was so eye-catching. Our brand visibility increased tremendously.",
     avatar: "/bg1.jpg"
@@ -49,7 +49,7 @@ const testimonials = [
     name: "Vikram Singh",
     company: "Singh Motors",
     location: "Jaipur",
-    service: "Billboard Advertising",
+    service: "billboards Advertising",
     rating: 5,
     text: "Professional team with creative minds! The billboard designs were modern and impactful. We saw immediate increase in showroom visits after the campaign launch.",
     avatar: "/bg1.jpg"

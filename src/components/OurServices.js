@@ -8,12 +8,12 @@ const services = [
     href: '/billboards?categoryId=social-media'
   },
   {
-    title: 'Billboard Advertising',
+    title: 'Unipole Advertising',
     imageUrl: '/images/services/billboard.jpg',
-    href: '/billboards?categoryId=billboard'
+    href: '/billboards?categoryId=unipole'
   },
   {
-    title: 'Digital LED display ads',
+    title: 'Digital LED display ads',
     imageUrl: '/images/services/digital-ads.jpg',
     href: '/billboards?categoryId=digital-advertising'
   }

@@ -12,10 +12,10 @@ export default function BillboardDetailPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [showContactForm, setShowContactForm] = useState(false)
 
-  // Define category images mapping
+  // Define category images mapping (same as OurServices)
   const categoryImages = {
     'social-media': '/images/services/social-media.jpg',
-    'billboard': '/images/services/billboard.jpg',
+    'unipole': '/images/services/billboard.jpg',
     'digital-advertising': '/images/services/digital-ads.jpg'
   }
 
@@ -24,7 +24,7 @@ export default function BillboardDetailPage() {
     if (!billboard?.category?.name) return null
     const categoryName = billboard.category.name.toLowerCase().replace(/\s+/g, '-')
     if (categoryName.includes('social')) return categoryImages['social-media']
-    if (categoryName.includes('billboard')) return categoryImages['billboard']
+    if (categoryName.includes('unipole') || categoryName.includes('billboard')) return categoryImages['unipole']
     if (categoryName.includes('digital')) return categoryImages['digital-advertising']
     return null
   }
@@ -517,6 +517,7 @@ function ContactFormModal({ billboard, onClose }) {
     </div>
   )
 }
+
 
 
 

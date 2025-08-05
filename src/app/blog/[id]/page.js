@@ -7,9 +7,9 @@ import { use } from 'react'
 const blogPosts = [
   {
     id: 1,
-    title: "The Future of Billboard Advertising: Digital vs Traditional",
+    title: "The Future of billboards Advertising: Digital vs Traditional",
     content: `
-      <p>Billboard advertising has evolved dramatically over the past decade. While traditional static billboards continue to dominate highways and city centers, digital billboards are rapidly gaining ground with their dynamic content capabilities.</p>
+      <p>billboards Advertising has evolved dramatically over the past decade. While traditional static billboards continue to dominate highways and city centers, digital billboards are rapidly gaining ground with their dynamic content capabilities.</p>
       
       <h2>The Rise of Digital Billboards</h2>
       <p>Digital billboards offer unprecedented flexibility for advertisers. With the ability to change content remotely, schedule different ads throughout the day, and even respond to real-time events, they represent the cutting edge of outdoor advertising.</p>
@@ -21,7 +21,7 @@ const blogPosts = [
       <p>The choice between digital and traditional depends on your campaign goals, budget, and target audience. Our team at SEPJO can help you determine the best approach for your specific needs.</p>
     `,
     image: "/images/services/billboard.jpg",
-    category: "Billboard Advertising",
+    category: "billboards Advertising",
     date: "December 15, 2024",
     readTime: "5 min read",
     author: "Marketing Team"

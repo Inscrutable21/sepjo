@@ -35,7 +35,7 @@ export default function Footer() {
               </h2>
             </div>
             <p className="text-sm max-w-xs leading-relaxed">
-              Creative advertising agency specializing in social media campaigns, billboard advertising, and digital marketing solutions.
+              Creative advertising agency specializing in social media campaigns, billboards Advertising, and digital marketing solutions.
             </p>
             <div className="flex space-x-3 pt-2">
               <SocialIcon href="https://www.facebook.com/share/1UT7Jq47Lq/" icon="facebook" />
@@ -69,7 +69,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <FooterLink href="/billboards">All Services</FooterLink>
               <FooterLink href="/billboards?categoryId=social-media">Social Media</FooterLink>
-              <FooterLink href="/billboards?categoryId=billboard">Billboard Ads</FooterLink>
+              <FooterLink href="/billboards?categoryId=unipole">Unipole Ads</FooterLink>
               <FooterLink href="/billboards?categoryId=digital-advertising">Digital Marketing</FooterLink>
               <FooterLink href="/billboards?categoryId=creative">Creative Design</FooterLink>
             </ul>

@@ -7,10 +7,10 @@ import { useState } from 'react'
 const blogPosts = [
   {
     id: 1,
-    title: "The Future of Billboard Advertising: Digital vs Traditional",
+    title: "The Future of billboards Advertising: Digital vs Traditional",
     excerpt: "Explore how digital billboards are revolutionizing outdoor advertising while traditional billboards maintain their timeless appeal.",
     image: "/images/services/billboard.jpg",
-    category: "Billboard Advertising",
+    category: "billboards Advertising",
     date: "December 15, 2024",
     readTime: "5 min read",
     author: "Marketing Team"
@@ -67,7 +67,7 @@ const blogPosts = [
   }
 ]
 
-const categories = ["All", "Billboard Advertising", "Social Media", "Digital LED display ads", "Strategy", "Design", "Analytics"]
+const categories = ["All", "billboards Advertising", "Social Media", "Digital LED display ads", "Strategy", "Design", "Analytics"]
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState("All")

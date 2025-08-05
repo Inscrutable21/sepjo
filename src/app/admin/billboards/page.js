@@ -26,6 +26,7 @@ export default function BillboardsPage() {
     isActive: true,
     isAvailable: true
   })
+  const [editingBillboard, setEditingBillboard] = useState(null)
 
   // Auto-calculate discount percentage
   const calculateDiscount = (originalPrice, offerPrice) => {
@@ -68,6 +69,30 @@ export default function BillboardsPage() {
     }
   }
 
+  const handleEdit = (billboard) => {
+    setEditingBillboard(billboard)
+    setFormData({
+      title: billboard.title,
+      cityId: billboard.cityId,
+      categoryId: billboard.categoryId,
+      subCategoryId: billboard.subCategoryId || '',
+      mediaType: billboard.mediaType,
+      size: billboard.size,
+      illumination: billboard.illumination,
+      ftf: billboard.ftf,
+      totalArea: billboard.totalArea,
+      description: billboard.description,
+      pricing: billboard.pricing,
+      offerPricing: billboard.offerPricing || '',
+      discountPercent: billboard.discountPercent || 0,
+      location: billboard.location,
+      images: billboard.images || [],
+      isActive: billboard.isActive,
+      isAvailable: billboard.isAvailable
+    })
+    setShowForm(true)
+  }
+
   useEffect(() => {
     fetchData()
   }, [])
@@ -99,8 +124,13 @@ export default function BillboardsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await fetch('/api/admin/billboards', {
-        method: 'POST',
+      const url = editingBillboard 
+        ? `/api/admin/billboards/${editingBillboard.id}`
+        : '/api/admin/billboards'
+      const method = editingBillboard ? 'PUT' : 'POST'
+
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       })
@@ -110,14 +140,15 @@ export default function BillboardsPage() {
           title: '', cityId: '', categoryId: '', subCategoryId: '',
           mediaType: '', size: '', illumination: '', ftf: '',
           totalArea: '', description: '', pricing: '', offerPricing: '',
-          discountPercent: '', location: '', images: [],
+          discountPercent: 0, location: '', images: [],
           isActive: true, isAvailable: true
         })
         setShowForm(false)
+        setEditingBillboard(null)
         fetchData()
       }
     } catch (error) {
-      console.error('Error creating billboard:', error)
+      console.error('Error saving billboard:', error)
     }
   }
 
@@ -205,7 +236,10 @@ export default function BillboardsPage() {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                     <div className="flex space-x-2">
-                      <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                      <button 
+                        onClick={() => handleEdit(billboard)}
+                        className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                      >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                         </svg>
@@ -233,7 +267,10 @@ export default function BillboardsPage() {
               <div className="flex justify-between items-start mb-3">
                 <h3 className="text-sm font-medium text-gray-900 dark:text-white line-clamp-2">{billboard.title}</h3>
                 <div className="flex space-x-1 ml-2">
-                  <button className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                  <button 
+                    onClick={() => handleEdit(billboard)}
+                    className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300"
+                  >
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>
@@ -291,7 +328,9 @@ export default function BillboardsPage() {
       {showForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Add New Billboard</h2>
+            <h2 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+              {editingBillboard ? 'Edit Billboard' : 'Add New Billboard'}
+            </h2>
             <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
               
               <div>
@@ -514,7 +553,10 @@ export default function BillboardsPage() {
               <div className="md:col-span-2 flex justify-end space-x-4 pt-4">
                 <button
                   type="button"
-                  onClick={() => setShowForm(false)}
+                  onClick={() => {
+                    setShowForm(false)
+                    setEditingBillboard(null)
+                  }}
                   className="px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
                 >
                   Cancel
@@ -523,7 +565,7 @@ export default function BillboardsPage() {
                   type="submit"
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md"
                 >
-                  Create Billboard
+                  {editingBillboard ? 'Update Billboard' : 'Create Billboard'}
                 </button>
               </div>
             </form>
@@ -533,6 +575,15 @@ export default function BillboardsPage() {
     </div>
   )
 }
+
+
+
+
+
+
+
+
+
 
 
 

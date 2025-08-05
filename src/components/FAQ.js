@@ -6,12 +6,12 @@ const faqs = [
   {
     id: 1,
     question: "What advertising services does SEPJO offer?",
-    answer: "SEPJO specializes in three core advertising services: Social Media Advertising for targeted online campaigns, Billboard Advertising for high-impact outdoor visibility, and Digital LED display ads for comprehensive online marketing solutions."
+    answer: "SEPJO specializes in three core advertising services: Social Media Advertising for targeted online campaigns, billboards Advertising for high-impact outdoor visibility, and Digital LED display ads for comprehensive online marketing solutions."
   },
   {
     id: 2,
     question: "How quickly can SEPJO launch my advertising campaign?",
-    answer: "Social media advertising campaigns can go live within 3-5 business days. Billboard advertising requires 1-2 weeks for location booking and creative production. Digital LED display ads campaigns typically launch within 5-7 days after strategy approval."
+    answer: "Social media advertising campaigns can go live within 3-5 business days. billboards Advertising requires 1-2 weeks for location booking and creative production. Digital LED display ads campaigns typically launch within 5-7 days after strategy approval."
   },
   {
     id: 3,
