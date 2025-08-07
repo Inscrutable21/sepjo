@@ -634,7 +634,7 @@ function BillboardCard({ billboard }) {
                 </span>
               )}
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">per month</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">per day</p>
           </div>
           
           <Link
@@ -648,6 +648,10 @@ function BillboardCard({ billboard }) {
     </div>
   )
 }
+
+
+
+
 
 
 
