@@ -18,22 +18,24 @@ export default function SearchBar() {
   const [citiesLoaded, setCitiesLoaded] = useState(false);
   const [categoriesLoaded, setCategoriesLoaded] = useState(false);
 
-  // Lazy load cities when dropdown is opened
-  const handleCitiesDropdownOpen = async () => {
-    if (citiesLoaded || citiesLoading) return;
-    
-    setCitiesLoading(true);
-    try {
-      const response = await fetch('/api/cities');
-      const data = await response.json();
-      setCities(data.cities || []);
-      setCitiesLoaded(true);
-    } catch (error) {
-      console.error('Error fetching cities:', error);
-    } finally {
-      setCitiesLoading(false);
-    }
-  };
+  // Load cities immediately on component mount
+  useEffect(() => {
+    const loadCities = async () => {
+      setCitiesLoading(true);
+      try {
+        const response = await fetch('/api/cities');
+        const data = await response.json();
+        setCities(data.cities || []);
+        setCitiesLoaded(true);
+      } catch (error) {
+        console.error('Error fetching cities:', error);
+      } finally {
+        setCitiesLoading(false);
+      }
+    };
+
+    loadCities();
+  }, []);
 
   // Fetch locations when city is selected
   const handleCityChange = async (selectedCityId) => {
@@ -116,7 +118,6 @@ export default function SearchBar() {
                 <select
                   value={cityId}
                   onChange={(e) => handleCityChange(e.target.value)}
-                  onFocus={handleCitiesDropdownOpen}
                   className="w-full px-4 py-3 pl-10 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors appearance-none cursor-pointer"
                 >
                   <option value="">
@@ -259,6 +260,9 @@ export default function SearchBar() {
     </section>
   );
 }
+
+
+
 
 
 
